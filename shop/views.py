@@ -30,14 +30,16 @@ def detail(request,id):
 def checkout(request):
     
     if request.method == "POST":
+        items = request.POST.get('items',"")
         name = request.POST.get('name',"")
         email = request.POST.get('email',"")
         city = request.POST.get('city',"")
         address = request.POST.get('address',"")
         state = request.POST.get('state',"")
         zip  = request.POST.get('zip',"")
+        total = request.POST.get('total',"")
         
-        orders = Order(name=name,email=email,city=city,address=address,state=state,zip=zip)
+        orders = Order(items=items,name=name,email=email,city=city,address=address,state=state,zip=zip,total=total)
         orders.save()
         
     return render(request,'shop/checkout.html')

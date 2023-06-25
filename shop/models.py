@@ -22,8 +22,8 @@ class Order(models.Model):
      address = models.CharField(max_length=1000)
      zip = models.CharField(max_length=500)
      email = models.CharField(max_length=500)
-     
-     
+     total = models.CharField(max_length=200)
+    
      
      
      def __str__(self):

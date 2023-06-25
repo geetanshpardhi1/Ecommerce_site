@@ -63,8 +63,8 @@
                     <img src="{{product.image}}" class="card-ing-top">
                     <div class="card-body">
                         <div id="nm{{product.id}}" class="card-title">{{product.product_name}}</div>
-                        <div class="card-text">
-                            $ {{product.product_price}}
+                        <div id="price{{product.id}}"  class="card-text">
+                            {{product.product_price}}
                         </div>
                         <a href="/{{product.id}}" class="btn btn-warning">View Item</a>
                         <button id="{{product.id}}" class="btn atc  btn-warning">Add To Cart</button>
@@ -122,11 +122,14 @@
             
             quantity = cart[item_id][0] + 1;
             cart[item_id][0] = quantity;
+            cart[item_id][2]=  cart[item_id][2] + parseFloat(document.getElementById("price"+item_id).innerHTML);
+           
         }
         else{
             quantity = 1;   
+            price = parseFloat(document.getElementById("price"+item_id).innerHTML);
             name = document.getElementById("nm"+item_id).innerHTML;
-            cart[item_id] = [quantity,name];
+            cart[item_id] = [quantity,name,price];
 
 
         }
@@ -143,10 +146,13 @@
         var cartstring = "";
         cartstring += "<h5>this is your cart</h5>";
         var cartindex = 1;
-        for(var x in cart){
-            cartstring += cartindex;
-            cartstring += document.getElementById("nm"+x).innerHTML + "Qty : " + cart[x][0] + "</br>";
-            cartindex += 1;
+        let cartobject = JSON.parse(localStorage.getItem('cart'))
+        
+        for(item in cartobject){
+            console.log(cartobject[item][0])
+            console.log(cartobject[item][1])
+            cartstring += cartobject[item][1] + "Qty : " + cartobject[item][0] + "</br>";
+          
         }
 
         cartstring += "<a href='/checkout'><button class='btn btn-warning' id='checkout'>Checkout</button></a>";

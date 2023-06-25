@@ -24,6 +24,7 @@
                 <div class="col-md-12">
                     <form method="POST">
                         {% csrf_token %}
+                            <input type="hidden" id="items" name="items">
                         <div class="form-row">
                           <div class="form-group col-md-6">
                             <label for="inputEmail4">Name</label>
@@ -52,6 +53,10 @@
                             <label for="inputZip">Zip</label>
                             <input id="zip" name="zip" type="text" class="form-control" id="inputZip">
                           </div>
+                          <div class="form-group col-md-2">
+                            <label for="inputZip">Amount to be paid</label>
+                            <input id="total" name="total" readonly="" type="text" class="form-control" >
+                          </div>
                         </div>
                        
                         <button type="submit" class="btn btn-primary">Place order</button>
@@ -69,12 +74,21 @@
     else{
         cart = JSON.parse(localStorage.getItem('cart'));
     }
+    total = 0;
     for(item in cart){
         let name = cart[item][1];
         let quantity = cart[item][0];
+        let price = cart[item][2];
+        total = total + cart[item][2];
 
-        itemstring = `<li class="list-group-item">${name}-${quantity}</li>`
+
+        itemstring = `<li class="list-group-item">${name}<span class="">${quantity}</span><span class="badge badge-warning badge-pill">${price}</span></li>`
+        totalprice = `<li class="list-group-item" d-flex justify-content-between align-items-center><b>Your Total</b>${total}</li>`
         $('#item_list').append(itemstring);
     }
+    totalprice = `<li class="list-group-item" d-flex justify-content-between align-items-center><b>Your Total</b>${total}</li>`
+    $('#item_list').append(totalprice);
+    $('#total').val(total); 
+    $('#items').val(JSON.stringify(cart));
 </script>
 </html>
